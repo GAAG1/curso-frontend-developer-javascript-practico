@@ -1,95 +1,101 @@
 const menuEmail = document.querySelector(".navbar-email");
-const menuDesktop = document.querySelector(".desktop-menu");
-const menuMoIcon = document.querySelector(".menu");
+const menuHamIcon = document.querySelector(".menu");
+const menuCarritoIcon = document.querySelector(".navbar-shopping-cart");
+const desktopMenu = document.querySelector(".desktop-menu");
 const mobileMenu = document.querySelector(".mobile-menu");
-const carIcon = document.querySelector(".navbar-shopping-cart");
-const lisCarCheck = document.querySelector(".product-detail");
-const cardsContainer= document.querySelector(".cards-container");
+const shoppingCartContainer = document.querySelector("#shoppingCartContainer");
+const cardsContainer = document.querySelector(".cards-container");
 
-menuEmail.addEventListener("click", toggleMD);
-menuMoIcon.addEventListener("click", toggleMM);
-carIcon.addEventListener("click", togglecar);
+menuEmail.addEventListener("click", toggleDesktopMenu);
+menuHamIcon.addEventListener("click", toggleMobileMenu);
+menuCarritoIcon.addEventListener("click", toggleCarritoAside);
 
-function togglecar() {
-  const isMBclosed = mobileMenu.classList.contains("inactive");
-  const isMDclosed = menuDesktop.classList.contains("inactive");
+function toggleDesktopMenu() {
+  const isAsideClosed = shoppingCartContainer.classList.contains("inactive");
 
-  /* abrir car list */
-  if (!isMBclosed) {
-    mobileMenu.classList.add("inactive");
+  if (!isAsideClosed) {
+    shoppingCartContainer.classList.add("inactive");
   }
-  if (!isMDclosed) {
-    menuDesktop.classList.add("inactive");
-  }
-  lisCarCheck.classList.toggle("inactive");
+
+  desktopMenu.classList.toggle("inactive");
 }
-function toggleMD() {
-  const isLCclosed = lisCarCheck.classList.contains("inactive");
-  if (!isLCclosed) {
-    lisCarCheck.classList.add("inactive");
+
+function toggleMobileMenu() {
+  const isAsideClosed = shoppingCartContainer.classList.contains("inactive");
+
+  if (!isAsideClosed) {
+    shoppingCartContainer.classList.add("inactive");
   }
-  menuDesktop.classList.toggle("inactive");
-}
-function toggleMM() {
-  const isLCclosed = lisCarCheck.classList.contains("inactive");
-  if (!isLCclosed) {
-    lisCarCheck.classList.add("inactive");
-  }
+
   mobileMenu.classList.toggle("inactive");
 }
 
-const productlist = [];
-productlist.push({
-  name: "celular",
+function toggleCarritoAside() {
+  const isMobileMenuClosed = mobileMenu.classList.contains("inactive");
+
+  if (!isMobileMenuClosed) {
+    mobileMenu.classList.add("inactive");
+  }
+
+  shoppingCartContainer.classList.toggle("inactive");
+}
+
+const productList = [];
+productList.push({
+  name: "Bike",
   price: 120,
-  imagen:
-    "https://i.pinimg.com/originals/9f/4c/c5/9f4cc55de7314756057faeb936f0cd88.png",
-});
-productlist.push({
-  name: "bike",
-  price: 200,
-  imagen:
+  image:
     "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 });
-productlist.push({
-  name: "Portatil HP",
-  price: 1500,
-  imagen:
-    "https://img.freepik.com/vector-gratis/icono-portatil-abierto-ilustracion-dibujos-animados_107791-4113.jpg?w=2000",
+productList.push({
+  name: "Pantalla",
+  price: 220,
+  image:
+    "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+});
+productList.push({
+  name: "Compu",
+  price: 620,
+  image:
+    "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 });
 
- function renderProduct(arr){
-    for (product of arr){
-        const productCard = document.createElement("div");
-        productCard.classList.add("product-card");
-      
-        const imgproduct= document.createElement("img");
-        imgproduct.setAttribute("src", product.imagen);
-      
-        const productInfo = document.createElement("div");
-        productInfo.classList.add("product-info");
-       
-        const productInfoDiv = document.createElement("div");
-      
-        const precio = document.createElement("p");
-        precio.innerText="$ "+product.price;
-      
-        const name= document.createElement("p");
-        name.innerText=product.name;
-      
-        const figure= document.createElement("figure");
-        const imgCar = document.createElement("img");
-        imgCar.setAttribute("src", "./icons/bt_add_to_cart.svg");
-      
-        productCard.appendChild(imgproduct);
-        productCard.appendChild(productInfo);
-        productInfo.appendChild(productInfoDiv);
-        productInfo.appendChild(figure)
-        productInfoDiv.appendChild(precio);
-        productInfoDiv.appendChild(name);
-        figure.appendChild(imgCar);
-       cardsContainer.appendChild(productCard);
-      
-      };
- }
- renderProduct(productlist);
+function renderProducts(arr) {
+  for (product of arr) {
+    const productCard = document.createElement("div");
+    productCard.classList.add("product-card");
+
+    // product= {name, price, image} -> product.image
+    const productImg = document.createElement("img");
+    productImg.setAttribute("src", product.image);
+
+    const productInfo = document.createElement("div");
+    productInfo.classList.add("product-info");
+
+    const productInfoDiv = document.createElement("div");
+
+    const productPrice = document.createElement("p");
+    productPrice.innerText = "$" + product.price;
+    const productName = document.createElement("p");
+    productName.innerText = product.name;
+
+    productInfoDiv.appendChild(productPrice);
+    productInfoDiv.appendChild(productName);
+
+    const productInfoFigure = document.createElement("figure");
+    const productImgCart = document.createElement("img");
+    productImgCart.setAttribute("src", "./icons/bt_add_to_cart.svg");
+
+    productInfoFigure.appendChild(productImgCart);
+
+    productInfo.appendChild(productInfoDiv);
+    productInfo.appendChild(productInfoFigure);
+
+    productCard.appendChild(productImg);
+    productCard.appendChild(productInfo);
+
+    cardsContainer.appendChild(productCard);
+  }
+}
+
+renderProducts(productList);
